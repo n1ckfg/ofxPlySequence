@@ -50,7 +50,7 @@ void PlySequence::writePointCloudsAsImages() {
 
 	glPointSize(1);
 
-	pixels.allocate(w*2,h*2, OF_PIXELS_RGB); // times two because we are working with quadrents
+	pixels.allocate(w*2,h*2, OF_PIXELS_RGB); // times two because we are working with quadrants
 	index = 0;
 	ix = 0;
 	ofFileDialogResult openFileResult = ofSystemLoadDialog("Select a folder of ply files", true);
@@ -105,7 +105,6 @@ void PlySequence::writePointCloudsAsImages() {
 
 // optional
 void PlySequence::loadBasePly(string filename) {
-
     mesh.load(filename);
 }
 
