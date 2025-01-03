@@ -1,8 +1,10 @@
-#include "ofxPlySequence.h"
+#include "PlySequence.h"
 
+
+PlySequence::PlySequence() { }
 
 //READING PNG TO PLY
-void ofxPlySequence::setup(){
+void PlySequence::setup() {
 	ofDisableArbTex(); // aallows me to use sampler2d instead of sampler2drect (some nvidia bullshit???)
 
 	// upload the transformation for each box using a
@@ -30,11 +32,12 @@ void ofxPlySequence::setup(){
 	for (int i = 0; i < frameNum; i++) {
 		images[i].load(path+"\\" + dir.getName(i));
 	}
-	camera.setDistance(ofGetWidth());
+	
+    //camera.setDistance(ofGetWidth());
 	camera.setFarClip(ofGetWidth()*12);
 }
 
-void ofxPlySequence::writePointCloudsAsImages(){
+void PlySequence::writePointCloudsAsImages() {
 	ofSetBackgroundColor(0);
 	
 	ofDisableArbTex(); // aallows me to use sampler2d instead of sampler2drect (some nvidia bullshit???)
@@ -57,8 +60,7 @@ void ofxPlySequence::writePointCloudsAsImages(){
 		cout << "selected";
 		ofLogVerbose("User selected a file");
 
-	}
-	else {
+	} else {
 		cout << "cancel";
 		ofLogVerbose("User hit cancel");
         exit(0);
@@ -102,12 +104,12 @@ void ofxPlySequence::writePointCloudsAsImages(){
 }
 
 // optional
-void ofxPlySequence::loadBaseply(string filename){
+void PlySequence::loadBasePly(string filename) {
 
     mesh.load(filename);
 }
 
-void ofxPlySequence::draw() {
+void PlySequence::draw() {
 	index = (index + 1) % (frameNum * 2);
 
 	if (index >= frameNum) {
@@ -119,7 +121,7 @@ void ofxPlySequence::draw() {
 }
 
 //--------------------------------------------------------------
-void ofApp::compressAndSave(string fileName){
+void PlySequence::compressAndSave(string fileName) {
 
 	int size = meshes[ix].getNumVertices();
 
@@ -129,20 +131,20 @@ void ofApp::compressAndSave(string fileName){
 		int x = i % w;
 		int y = i / w;
 
-		UINT64 red = (UINT32)(((long double)(v.x + 150)) * d); // get rid of decimal
-		UINT16 red1 = (UINT16)(red & 0x0000ffff);
-		UINT16 red2 = (UINT16)((red >> 16) & 0x0000ffff);// / pow(2, 16));
-		UINT16 red3 = (UINT16)((red >> 32) & 0x0000ffff); // pow(2, 32));
+		UInt64 red = (UInt32)(((long double)(v.x + 150)) * d); // get rid of decimal
+		UInt16 red1 = (UInt16)(red & 0x0000ffff);
+		UInt16 red2 = (UInt16)((red >> 16) & 0x0000ffff);// / pow(2, 16));
+		UInt16 red3 = (UInt16)((red >> 32) & 0x0000ffff); // pow(2, 32));
 
-		UINT64 green = (UINT64)(((long double)(-v.y)) * d); // get rid of decimal
-		UINT16 green1 = (UINT16)(green & 0x0000ffff);
-		UINT16 green2 = (UINT16)((green >> 16) & 0x0000ffff);
-		UINT16 green3 = (UINT16)((green >> 32) & 0x0000ffff);
+		UInt64 green = (UInt64)(((long double)(-v.y)) * d); // get rid of decimal
+		UInt16 green1 = (UInt16)(green & 0x0000ffff);
+		UInt16 green2 = (UInt16)((green >> 16) & 0x0000ffff);
+		UInt16 green3 = (UInt16)((green >> 32) & 0x0000ffff);
 
-		UINT64 blue = (UINT64)(((long double)(v.z + 90)) * d); // get rid of decimal
-		UINT16 blue1 = (UINT16)(blue & 0x0000ffff);;
-		UINT16 blue2 = (UINT16)((blue >> 16) & 0x0000ffff);
-		UINT16 blue3 = (UINT16)((blue >> 32) & 0x0000ffff);
+		UInt64 blue = (UInt64)(((long double)(v.z + 90)) * d); // get rid of decimal
+		UInt16 blue1 = (UInt16)(blue & 0x0000ffff);;
+		UInt16 blue2 = (UInt16)((blue >> 16) & 0x0000ffff);
+		UInt16 blue3 = (UInt16)((blue >> 32) & 0x0000ffff);
 
 		pixels.setColor(x,y, ofShortColor(red1, red2, red3));
 		pixels.setColor(x+w,y, ofShortColor(green1, green2, green3));
